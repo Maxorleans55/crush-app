@@ -86,6 +86,9 @@
             top: 50%;
             left: 50%;
             width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
             background: var(--card-bg);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
@@ -100,17 +103,27 @@
             text-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
         }
 
-        @media (max-width: 768px) {
-            .step {
-                padding: 1.5rem;
-            }
-        }
-
-
         .step.active {
             opacity: 1;
             transform: translate(-50%, -50%) scale(1);
             pointer-events: all;
+        }
+
+        /* Thin, unobtrusive scrollbar for steps that need to scroll */
+        .step::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .step::-webkit-scrollbar-thumb {
+            background: rgba(255, 200, 220, 0.3);
+            border-radius: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .step {
+                padding: 1.5rem;
+                max-height: 85vh;
+            }
         }
 
         .step .anim-child {
@@ -284,11 +297,45 @@
         .music-hint-pulse {
             animation: music-hint 1.6s ease-in-out infinite;
         }
+
+        @keyframes scroll-bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(8px);
+            }
+        }
+
+        .scroll-hint {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+            margin-top: 1rem;
+            color: var(--text-medium);
+            font-size: 0.85rem;
+            letter-spacing: 0.03em;
+            opacity: 0.85;
+        }
+
+        .scroll-hint.visible {
+            display: flex;
+        }
+
+        .scroll-hint .arrow {
+            animation: scroll-bounce 1.4s ease-in-out infinite;
+        }
     </style>
 </head>
 
 <body>
-    <audio id="bg-music" src="audio/blue.mp3" loop preload="auto"></audio>
+    <audio id="bg-music" loop preload="auto">
+        <source src="audio/blue.m4a" type="audio/mp4">
+    </audio>
     <button id="music-toggle" type="button"
         class="fixed top-5 right-5 z-30 w-11 h-11 rounded-full flex items-center justify-center text-xl"
         style="background: rgba(255,255,255,0.12); border: 1px solid rgba(255,200,220,0.3); backdrop-filter: blur(10px);"
@@ -338,6 +385,7 @@
                             inspiring.</p>
                     </div>
                 </div>
+                <p class="scroll-hint anim-child" id="step3-scroll-hint"><span class="arrow">↓</span> Scroll down for more <span class="arrow">↓</span></p>
                 <button id="next-btn-3" class="anim-child btn text-white mt-8">Remember Our Journey?</button>
             </div>
 
@@ -530,6 +578,19 @@
                         { opacity: 0, y: 40, scale: 0.95 },
                         { opacity: 1, y: 0, scale: 1, duration: 1, ease: 'power3.out', stagger: 0.2, delay: 0.5 } // Smoother ease for content
                     );
+
+                    // Show a "scroll down" hint if this step's content overflows its box
+                    const hint = nextStep.querySelector('.scroll-hint');
+                    if (hint) {
+                        setTimeout(() => {
+                            if (nextStep.scrollHeight > nextStep.clientHeight + 4) {
+                                hint.classList.add('visible');
+                            }
+                        }, 1600);
+                        nextStep.addEventListener('scroll', () => {
+                            hint.style.opacity = nextStep.scrollTop > 10 ? '0' : '0.85';
+                        });
+                    }
                 }
                 updateProgressBar();
             }
