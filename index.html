@@ -16,16 +16,27 @@
     <style>
         :root {
             --bg-color: #2a0a2a;
+            /* Deep purple-pink */
             --primary-color: #ff3879;
+            /* Vivid hot pink */
             --secondary-color: #ff74a4;
+            /* Softer, warm pink */
             --accent-glow: rgba(255, 100, 150, 0.6);
+            /* Brighter pink glow */
             --card-bg: rgba(255, 150, 200, 0.1);
+            /* Light, translucent pink for cards */
             --card-border: rgba(255, 200, 220, 0.25);
+            /* Slightly more visible light pink border */
             --text-light: #fce7f3;
+            /* Very light pink/white */
             --text-medium: #fbcfe8;
+            /* Light pink */
             --text-gradient-start: #ffc2e2;
+            /* Lighter pink for text gradient */
             --text-gradient-mid: #ff8ab6;
+            /* Mid pink for text gradient */
             --text-gradient-end: #ffffff;
+            /* White for text gradient */
         }
 
         body {
@@ -52,6 +63,7 @@
             background-size: 200% 200%;
         }
 
+     
         #app {
             display: grid;
             place-items: center;
@@ -97,6 +109,7 @@
             pointer-events: all;
         }
 
+        /* Thin, unobtrusive scrollbar for steps that need to scroll */
         .step::-webkit-scrollbar {
             width: 5px;
         }
@@ -166,10 +179,13 @@
         }
 
         @keyframes heartbeat {
-            0%, 100% {
+
+            0%,
+            100% {
                 transform: scale(1);
                 filter: drop-shadow(0 0 20px var(--accent-glow));
             }
+
             50% {
                 transform: scale(1.22);
                 filter: drop-shadow(0 0 50px var(--accent-glow));
@@ -215,6 +231,7 @@
             .bento-grid {
                 grid-template-columns: 1fr;
             }
+
             .bento-item-1,
             .bento-item-3 {
                 grid-column: span 1;
@@ -232,6 +249,7 @@
 
         #polaroid-inner {
             background: linear-gradient(to bottom right, #fef2f9, #ffe4f0);
+            /* Soft pinkish white */
             padding: 1.5rem;
             padding-bottom: 1.2rem;
             border-radius: 1rem;
@@ -247,10 +265,12 @@
 
         #polaroid-inner img {
             border-radius: 0.75rem;
+            /* More rounded image corners */
         }
 
         #polaroid-inner p {
             color: #5a0c3b;
+            /* Darker pink text */
         }
 
         .final-wish-text {
@@ -263,9 +283,12 @@
         }
 
         @keyframes music-hint {
-            0%, 100% {
+
+            0%,
+            100% {
                 box-shadow: 0 0 0 0 var(--accent-glow);
             }
+
             50% {
                 box-shadow: 0 0 0 10px rgba(255, 100, 150, 0);
             }
@@ -276,9 +299,12 @@
         }
 
         @keyframes scroll-bounce {
-            0%, 100% {
+
+            0%,
+            100% {
                 transform: translateY(0);
             }
+
             50% {
                 transform: translateY(8px);
             }
@@ -307,8 +333,8 @@
 </head>
 
 <body>
-    <audio id="bg-music" loop preload="auto">
-        <source src="blue.m4a" type="audio/mp4">
+<audio id="bg-music" loop preload="auto">
+        <source src="blue.mp3" type="audio/mpeg">
     </audio>
     <button id="music-toggle" type="button"
         class="fixed top-5 right-5 z-30 w-11 h-11 rounded-full flex items-center justify-center text-xl"
@@ -372,7 +398,7 @@
                         <p class="text-center font-semibold mt-4 text-xl italic">"Us" – my favorite chapter.</p>
                     </div>
                 </div>
-                <!-- Swap the src above for a real photo of you two -->
+                <!-- Swap the src above for a real photo of you two, e.g. src="images/us.jpg" -->
                 <p class="anim-child text-gray-300 mb-8 text-lg">Every shared glance, every soft touch, every adventure
                     with you becomes a cherished masterpiece in my heart.</p>
                 <button id="next-btn-4" class="anim-child btn text-white">One Final Thought...</button>
@@ -434,19 +460,22 @@
                 heartShape.moveTo(25, 25); heartShape.bezierCurveTo(25, 25, 20, 0, 0, 0); heartShape.bezierCurveTo(-30, 0, -30, 35, -30, 35); heartShape.bezierCurveTo(-30, 55, -10, 77, 25, 95); heartShape.bezierCurveTo(60, 77, 80, 55, 80, 35); heartShape.bezierCurveTo(80, 35, 80, 0, 50, 0); heartShape.bezierCurveTo(35, 0, 25, 25, 25, 25);
                 const extrudeSettings = { depth: 8, bevelEnabled: true, bevelSegments: 2, steps: 2, bevelSize: 1, bevelThickness: 1 };
                 const geometry = new THREE.ExtrudeGeometry(heartShape, extrudeSettings);
-                const colors = [0xff6e8e, 0xff3879, 0xfc94af, 0xffc0cb, 0xe82979, 0xd06eff, 0xffa0c7];
+                // Updated heart colors to match the new pink theme
+                const colors = [0xff6e8e, 0xff3879, 0xfc94af, 0xffc0cb, 0xe82979, 0xd06eff, 0xffa0c7]; // More pink/purple shades
 
-                for (let i = 0; i < 30; i++) {
+                for (let i = 0; i < 30; i++) { // Increased heart count for more presence
+                    // Hearts are visible from the start with full opacity
                     const material = new THREE.MeshPhongMaterial({ color: colors[Math.floor(Math.random() * colors.length)], emissive: 0x181818, shininess: 120, specular: 0xffffff, transparent: true, opacity: 0.85 });
                     const heart = new THREE.Mesh(geometry, material);
-                    const scale = (Math.random() * 0.06) + 0.03;
+                    const scale = (Math.random() * 0.06) + 0.03; // Slightly larger hearts
                     heart.scale.set(scale, scale, scale);
-                    heart.position.set((Math.random() - 0.5) * 80, (Math.random() - 0.5) * 80, (Math.random() - 0.5) * 30);
+                    heart.position.set((Math.random() - 0.5) * 80, (Math.random() - 0.5) * 80, (Math.random() - 0.5) * 30); // Wider distribution
                     heart.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI);
-                    heart.userData = { originalY: heart.position.y, rotationSpeedX: (Math.random() - 0.5) * 0.02, rotationSpeedY: (Math.random() - 0.5) * 0.02, floatDistance: Math.random() * 3 + 1.5 };
+                    heart.userData = { originalY: heart.position.y, rotationSpeedX: (Math.random() - 0.5) * 0.02, rotationSpeedY: (Math.random() - 0.5) * 0.02, floatDistance: Math.random() * 3 + 1.5 }; // Faster rotation, more float
                     hearts.push(heart);
                     scene.add(heart);
 
+                    // Initial animation for hearts - now just position and scale, not opacity from 0
                     gsap.from(heart.position, {
                         y: heart.position.y - 40,
                         duration: 2.5,
@@ -465,11 +494,11 @@
 
             function animate() {
                 requestAnimationFrame(animate);
-                const time = Date.now() * 0.0007;
+                const time = Date.now() * 0.0007; // Slightly faster animation for hearts
                 hearts.forEach(heart => {
                     heart.rotation.x += heart.userData.rotationSpeedX;
                     heart.rotation.y += heart.userData.rotationSpeedY;
-                    heart.position.y = heart.userData.originalY + Math.sin(time + heart.position.x * 0.15) * heart.userData.floatDistance;
+                    heart.position.y = heart.userData.originalY + Math.sin(time + heart.position.x * 0.15) * heart.userData.floatDistance; // More organic float
                 });
                 renderer.render(scene, camera);
             }
@@ -505,6 +534,7 @@
                         musicToggle.textContent = '🔊';
                         musicToggle.classList.remove('music-hint-pulse');
                     }).catch(() => {
+                        // Blocked until a real user gesture happens; the listeners below will retry
                         playAttemptInFlight = false;
                     });
                 } else {
@@ -512,8 +542,11 @@
                 }
             }
 
+            // Try immediately in case the browser already permits it (e.g. returning visitor)
             startMusic();
 
+            // Catch the very first genuine interaction, whatever form it takes,
+            // across desktop and mobile, and start playback right then
             ['pointerdown', 'touchend', 'keydown', 'click', 'scroll'].forEach(evt => {
                 window.addEventListener(evt, startMusic, { once: true, passive: true });
             });
@@ -531,6 +564,8 @@
                 }
             });
 
+            // If nothing has unlocked audio within 2s, give the toggle a gentle
+            // pulse so she notices there's sound waiting to be turned on
             setTimeout(() => {
                 if (!musicStarted) musicToggle.classList.add('music-hint-pulse');
             }, 2000);
@@ -547,9 +582,10 @@
                     nextStep.classList.add('active');
                     gsap.fromTo(nextStep.querySelectorAll('.anim-child'),
                         { opacity: 0, y: 40, scale: 0.95 },
-                        { opacity: 1, y: 0, scale: 1, duration: 1, ease: 'power3.out', stagger: 0.2, delay: 0.5 }
+                        { opacity: 1, y: 0, scale: 1, duration: 1, ease: 'power3.out', stagger: 0.2, delay: 0.5 } // Smoother ease for content
                     );
 
+                    // Show a "scroll down" hint if this step's content overflows its box
                     const hint = nextStep.querySelector('.scroll-hint');
                     if (hint) {
                         setTimeout(() => {
@@ -612,6 +648,7 @@
                 gsap.fromTo(taunt, { scale: 0.8, opacity: 0.6 }, { scale: 1, opacity: 1, duration: 0.3 });
             }
 
+            // Mouse: dodge before the cursor even reaches it
             document.addEventListener('mousemove', (e) => {
                 if (gameWon || !document.getElementById('step5').classList.contains('active')) return;
                 const btnRect = noBtn.getBoundingClientRect();
@@ -621,11 +658,13 @@
                 if (dist < 70) dodgeNoButton(e.clientX, e.clientY);
             });
 
+            // Touch: dodge the instant a finger lands on or near it
             noBtn.addEventListener('touchstart', (e) => {
                 e.preventDefault();
                 dodgeNoButton();
             }, { passive: false });
 
+            // Fallback: if somehow clicked (e.g. keyboard/tab+enter), still dodge instead of "succeeding"
             noBtn.addEventListener('click', (e) => {
                 e.preventDefault();
                 dodgeNoButton();
@@ -637,6 +676,7 @@
                 const heartDefaults = { startVelocity: 45, ticks: 90, zIndex: 200, scalar: 3 };
                 const heartEmojis = ['❤️', '💖', '💕', '💗', '💓', '💘', '✨'];
 
+                // Big central burst right where the button was
                 confetti(Object.assign({}, heartDefaults, {
                     particleCount: 40,
                     spread: 360,
@@ -644,6 +684,7 @@
                     emojis: heartEmojis
                 }));
 
+                // Cascading side bursts for a fuller "explosion" feel
                 let bursts = 0;
                 const burstInterval = setInterval(() => {
                     bursts++;
